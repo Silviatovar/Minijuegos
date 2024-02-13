@@ -1,0 +1,75 @@
+.contenedor {
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  text-align: center;
+  display: flex;
+      flex-wrap: nowrap;
+        justify-content: space-around;
+}
+
+.fechas{
+  display:flex;
+  margin:10px;
+  padding: 20px;
+  
+}
+.login-container {
+  align-items: center;
+  margin-right: 5%;
+  width: 35%;
+  padding: 20px;
+  background-color: #fff;
+  border-radius: 5px;
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.1); }
+
+.formulario-group label {
+  display: block;
+  text-align: left; }
+.formulario-group input {
+  width: 90%;
+  padding: 10px;
+  display: block;
+  margin-top: 5px;
+  border: 1px solid #ccc;
+  border-radius: 5px; }
+
+.login-button {
+  margin-top: 15px;
+  width: 40%;
+  padding: 10px;
+  background-color: #007BFF;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer; }
+
+.remember-me {
+  margin-top: 10px; }
+
+.close-button {
+  width: 13%;
+  padding: 6px;
+  background-color: #007BFF;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-top: 15px;
+  float: right; }
+
+.password {
+  text-align: right;
+  margin-top: 10px; 
+color:grey;}
+
+@media (max-width: 770px) {
+  .contenedor {
+    flex-direction: column;
+    width: 100%; }
+
+  .login-container {
+    width: 100%; }
+
+  .valida-datos {
+    padding-top: 5%; } }
+
+/*# sourceMappingURL=login.css.map */

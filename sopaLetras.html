@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sopa de Letras</title>
+    <style>
+        table {
+            border-collapse: collapse;
+            margin: 20px;
+        }
+
+        td {
+            border: 1px solid black;
+            width: 20px;
+            height: 20px;
+            text-align: center;
+        }
+    </style>
+</head>
+
+<body>
+
+    <script>
+        function crearSopaDeLetras() {
+            // Preguntar al usuario por el número de filas y columnas
+            var filas = prompt("Ingrese el número de filas:");
+            var columnas = prompt("Ingrese el número de columnas:");
+
+            // Validar la entrada del usuario
+            if (!filas || isNaN(filas) || filas <= 0 || !columnas || isNaN(columnas) || columnas <= 0) {
+                alert("Por favor, ingrese números válidos para filas y columnas.");
+                return;
+            }
+
+            // Crear la tabla
+            var tabla = document.createElement("table");
+
+            // Crear las filas y columnas
+            for (var i = 0; i < filas; i++) {
+                var fila = document.createElement("tr");
+
+                for (var j = 0; j < columnas; j++) {
+                    var celda = document.createElement("td");
+                    celda.textContent = obtenerLetraAleatoria();
+                    fila.appendChild(celda);
+                }
+
+                tabla.appendChild(fila);
+            }
+
+            // Añadir la tabla al cuerpo del documento
+            document.body.appendChild(tabla);
+
+            // Preguntar al usuario por el número de palabras a añadir
+            var numeroPalabras = prompt("Ingrese el número de palabras que desea añadir:");
+
+            // Validar la entrada del número de palabras
+            if (!numeroPalabras || isNaN(numeroPalabras) || numeroPalabras <= 0) {
+                alert("Por favor, ingrese un número válido para el número de palabras.");
+                return;
+            }
+
+            // Almacenar las posiciones ocupadas por las palabras
+            var posicionesOcupadas = new Set();
+
+            // Añadir cada palabra según la dirección especificada
+            for (var i = 0; i < numeroPalabras; i++) {
+                var palabra;
+                var direccion;
+                var filaInicio;
+                var columnaInicio;
+
+                // Bucle hasta que se proporcionen valores válidos para la palabra
+                do {
+                    palabra = prompt("Ingrese la palabra #" + (i + 1) + ":");
+                    direccion = prompt("Ingrese la dirección de la palabra (arriba, abajo, izquierda, derecha):");
+                    filaInicio = prompt("Ingrese la fila de inicio:");
+                    columnaInicio = prompt("Ingrese la columna de inicio");
+                } while (!palabra || palabra.trim() === "" || !direccion || !["arriba", "abajo", "izquierda", "derecha"].includes(direccion.toLowerCase()) ||
+                    !filaInicio || isNaN(filaInicio) || filaInicio < 0 || filaInicio >= filas ||
+                    !columnaInicio || isNaN(columnaInicio) || columnaInicio < 0 || columnaInicio >= columnas ||
+                    !verificarPosicionesOcupadas(palabra, direccion, parseInt(filaInicio), parseInt(columnaInicio), filas, columnas, posicionesOcupadas));
+
+                // Añadir la palabra a la sopa de letras
+                agregarPalabra(tabla, palabra, direccion, parseInt(filaInicio), parseInt(columnaInicio), filas, columnas, posicionesOcupadas);
+            }
+        }
+
+        function agregarPalabra(tabla, palabra, direccion, filaInicio, columnaInicio, filas, columnas, posicionesOcupadas) {
+            var longitud = palabra.length;
+
+            switch (direccion.toLowerCase()) {
+                case "arriba":
+                    for (var i = 0; i < longitud; i++) {
+                        tabla.rows[filaInicio - i].cells[columnaInicio].textContent = palabra.charAt(i);
+                        posicionesOcupadas.add((filaInicio - i) + '-' + columnaInicio);
+                    }
+                    break;
+
+                case "abajo":
+                    for (var i = 0; i < longitud; i++) {
+                        tabla.rows[filaInicio + i].cells[columnaInicio].textContent = palabra.charAt(i);
+                        posicionesOcupadas.add((filaInicio + i) + '-' + columnaInicio);
+                    }
+                    break;
+
+                case "izquierda":
+                    for (var i = 0; i < longitud; i++) {
+                        tabla.rows[filaInicio].cells[columnaInicio - i].textContent = palabra.charAt(i);
+                        posicionesOcupadas.add(filaInicio + '-' + (columnaInicio - i));
+                    }
+                    break;
+
+                case "derecha":
+                    for (var i = 0; i < longitud; i++) {
+                        tabla.rows[filaInicio].cells[columnaInicio + i].textContent = palabra.charAt(i);
+                        posicionesOcupadas.add(filaInicio + '-' + (columnaInicio + i));
+                    }
+                    break;
+
+                default:
+                    alert("Dirección no válida.");
+                    break;
+            }
+        }
+
+        function verificarPosicionesOcupadas(palabra, direccion, filaInicio, columnaInicio, filas, columnas, posicionesOcupadas) {
+            var longitud = palabra.length;
+
+            switch (direccion.toLowerCase()) {
+                case "arriba":
+                    for (var i = 0; i < longitud; i++) {
+                        if (posicionesOcupadas.has((filaInicio - i) + '-' + columnaInicio)) {
+                            alert("Ya hay una palabra en esa posición. Elija otra posición.");
+                            return false;
+                        }
+                    }
+                    break;
+
+                case "abajo":
+                    for (var i = 0; i < longitud; i++) {
+                        if (posicionesOcupadas.has((filaInicio + i) + '-' + columnaInicio)) {
+                            alert("Ya hay una palabra en esa posición. Elija otra posición.");
+                            return false;
+                        }
+                    }
+                    break;
+
+                case "izquierda":
+                    for (var i = 0; i < longitud; i++) {
+                        if (posicionesOcupadas.has(filaInicio + '-' + (columnaInicio - i))) {
+                            alert("Ya hay una palabra en esa posición. Elija otra posición.");
+                            return false;
+                        }
+                    }
+                    break;
+
+                case "derecha":
+                    for (var i = 0; i < longitud; i++) {
+                        if (posicionesOcupadas.has(filaInicio + '-' + (columnaInicio + i))) {
+                            alert("Ya hay una palabra en esa posición. Elija otra posición.");
+                            return false;
+                        }
+                    }
+                    break;
+
+                default:
+                    break;
+            }
+
+            return true;
+        }
+
+        function obtenerLetraAleatoria() {
+            var letras = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+            var indiceAleatorio = Math.floor(Math.random() * letras.length);
+            return letras.charAt(indiceAleatorio);
+        }
+    </script>
+
+</body>
+
+</html>

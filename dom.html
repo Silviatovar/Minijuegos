@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tablero con DOM</title>
+  <style>
+    .tablero {
+      display: grid;
+      grid-template-columns: repeat(10, 40px);
+      gap: 5px;
+    }
+    .casilla {
+      width: 40px;
+      height: 40px;
+      border: 1px solid #000;
+      text-align: center;
+      line-height: 40px;
+      cursor: pointer;
+    }
+    .rojo { background-color: red; }
+    .verde { background-color: green; }
+    .azul { background-color: blue; }
+    .blanco { background-color: white; }
+    .amarillo { background-color: yellow; }
+    .naranja { background-color: orange; }
+  </style>
+</head>
+<body>
+
+<!-- Primer Tablero -->
+<div id="tablero1" class="tablero"></div>
+
+<!-- Botones para el primer tablero -->
+<button onclick="restaurarTablero()">Inicial</button>
+<button onclick="limpiarTablero()">Limpiar</button>
+<button onclick="activarBorrador()">Voy a borrar</button>
+<button onclick="activarVerde()">Verde</button>
+<button onclick="activarAzul()">Azul</button>
+<button onclick="colorearAutomatico()">Automático</button>
+<button onclick="buscarPosicion()">Busca Posicion</button>
+<button onclick="colorearDel1Al10()">Colorea 10</button>
+
+<!-- Frase y cuadro de texto para cambiar el color -->
+<p>Escribe una de las letras: <input type="text" id="colorInput" oninput="cambiarColor()"></p>
+
+<!-- Segundo Tablero -->
+<div id="tablero2" class="tablero"></div>
+
+<!-- Botones para el segundo tablero -->
+<button onclick="reiniciarSegundoTablero()">Reiniciar</button>
+<button onclick="comprobarOrden()">Comprobar</button>
+
+<script>
+  // Función para generar números aleatorios sin repetir
+  function generarNumerosAleatorios() {
+    let numeros = Array.from({ length: 100 }, (_, i) => i);
+    numeros.sort(() => Math.random() - 0.5);
+    return numeros;
+  }
+
+  // Función para crear y mostrar el tablero
+  function mostrarTablero(tableroId, numeros, casillaClickCallback) {
+    const tablero = document.getElementById(tableroId);
+    tablero.innerHTML = '';
+
+    for (let i = 0; i < 100; i++) {
+      const casilla = document.createElement('div');
+      casilla.className = 'casilla blanco';
+      casilla.textContent = numeros[i];
+      casilla.addEventListener('mouseover', () => mostrarPosicion(numeros[i], tableroId));
+      casilla.addEventListener('click', () => casillaClickCallback(casilla));
+      tablero.appendChild(casilla);
+    }
+  }
+
+  // Función para mostrar la posición al pasar el ratón
+  function mostrarPosicion(numero, tableroId) {
+    console.log(`Número: ${numero}, Tablero: ${tableroId}`);
+  }
+
+  // Función para pintar/despejar una casilla al hacer clic
+  function pintarCasilla(casilla) {
+    if (casilla.classList.contains('blanco')) {
+      casilla.classList.add('rojo');
+    } else {
+      casilla.classList.remove('rojo');
+    }
+  }
+
+  // Función para restaurar el tablero a su estado inicial
+  function restaurarTablero() {
+    const numerosAleatorios = generarNumerosAleatorios();
+    mostrarTablero('tablero1', numerosAleatorios, pintarCasilla);
+  }
+
+  // Función para limpiar todas las casillas del tablero
+  function limpiarTablero() {
+    const casillas = document.querySelectorAll('#tablero1 .casilla');
+    casillas.forEach(casilla => casilla.classList.remove('rojo', 'verde', 'azul'));
+  }
+
+  // Función para activar/desactivar el modo borrador
+  function activarBorrador() {
+    const botonBorrador = document.querySelector('button[onclick="activarBorrador()"]');
+    botonBorrador.classList.toggle('borrador-activo');
+  }
+
+  // Función para activar el color verde
+  function activarVerde() {
+    const botonVerde = document.querySelector('button[onclick="activarVerde()"]');
+    botonVerde.classList.toggle('color-activo');
+  }
+
+  // Función para activar el color azul
+  function activarAzul() {
+    const botonAzul = document.querySelector('button[onclick="activarAzul()"]');
+    botonAzul.classList.toggle('color-activo');
+  }
+
+  // Función para colorear automáticamente el tablero
+  function colorearAutomatico() {
+    const casillas = document.querySelectorAll('#tablero1 .casilla');
+    casillas.forEach((casilla, index) => {
+      setTimeout(() => casilla.classList.add('naranja'), index * 100);
+    });
+  }
+
+  // Función para buscar la posición de un número en el tablero
+  function buscarPosicion() {
+    const numeroBuscado = prompt('Escribe el número que deseas buscar:');
+    const casilla = document.querySelector(`#tablero1 .casilla:contains("${numeroBuscado}")`);
+    if (casilla) {
+      alert(`La posición del número ${numeroBuscado} es: ${casilla.textContent}`);
+    } else {
+      alert(`El número ${numeroBuscado} no se encuentra en el tablero.`);
+    }
+  }
+
+  // Función para colorear del 1 al 10 con un intervalo de tiempo
+  function colorearDel1Al10() {
+    const casillas = document.querySelectorAll('#tablero1 .casilla');
+    let contador = 1;
+
+    function colorearSiguiente() {
+      const casilla = document.querySelector(`#tablero1 .casilla:contains("${contador}")`);
+      if (casilla) {
+        casilla.classList.add('naranja');
+        contador++;
+        if (contador <= 10) {
+          setTimeout(colorearSiguiente, 1000);
+        }
+      }
+    }
+
+    colorearSiguiente();
+  }
+
+  // Función para cambiar el color del tablero según la letra ingresada
+  function cambiarColor() {
+    const colorInput = document.getElementById('colorInput').value.toLowerCase();
+    const tablero = document.getElementById('tablero1');
+
+    switch (colorInput) {
+      case 'r':
+        tablero.style.backgroundColor = 'red';
+        break;
+      case 'g':
+        tablero.style.backgroundColor = 'green';
+        break;
+      case 'b':
+        tablero.style.backgroundColor = 'blue';
+        break;
+      case 'y':
+        tablero.style.backgroundColor = 'yellow';
+        break;
+      default:
+        tablero.style.backgroundColor = 'white';
+    }
+  }
+
+  // Función para reiniciar el segundo tablero
+  function reiniciarSegundoTablero() {
+    const tablero2 = document.getElementById('tablero2');
+    tablero2.innerHTML = '';
+  }
+
+  // Función para comprobar el orden en el segundo tablero
+  function comprobarOrden() {
+    const tablero2 = document.getElementById('tablero2');
+    const casillas = tablero2.querySelectorAll('.casilla');
+    let numerosOrdenados = Array.from({ length: 10 }, (_, i) => i + 1);
+
+    const casillasOrdenadas = Array.from(casillas).map(casilla => parseInt(casilla.textContent));
+    
+    if (JSON.stringify(casillasOrdenadas) === JSON.stringify(numerosOrdenados)) {
+      alert('¡El orden es correcto!');
+    } else {
+      alert('El orden no es correcto. ¡Inténtalo de nuevo!');
+    }
+  }
+
+  // Inicialización del tablero al cargar la página
+  window.onload = restaurarTablero;
+</script>
+
+</body>
+</html>

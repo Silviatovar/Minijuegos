@@ -1,0 +1,804 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.min.css">
+<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
+    <link rel="stylesheet" href="CSS/estilo.css">
+</head>
+
+<body>
+    <header class="navbar navbar-expand-lg navbar-light">
+        <div class="container-fluid">
+
+            <div class="navbar-collapse justify-content-end">
+                <ul class="navbar-nav">
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <span id="usernameDisplay"></span>
+                        </a>
+                        <div class="dropdown-menu dropdown-menu-right " aria-labelledby="userDropdown">
+                            <a class="dropdown-item tablinks hide-on-logout" href="#" data-bs-toggle="modal" data-bs-target="#modifyUserModal">Modificar datos</a>
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item btn btn-danger tablinks hide-on-logout " href="#" onclick="cerrarSesion()">Cerrar sesión</a>
+                            <a class="dropdown-item tablinks hide-on-logout" href="#" onclick="confirmarDarseDeBaja()">Darse de baja</a>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+
+        </div>
+    </header>
+
+
+
+
+  <!-- Modal de Modificación de Usuario -->
+<div class="modal fade" id="modifyUserModal" tabindex="-1" aria-labelledby="modifyUserModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modifyUserModalLabel">Modificar Datos de Usuario</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+                <div class="modal-body">
+                    <!-- Formulario de modificación de usuario -->
+                    <form id="modifyUserForm">
+                        <div class="mb-3">
+                            <label for="newname" class="form-label">Nombre :</label>
+                            <input type="text" class="form-control" id="newname" placeholder="Escriba aquí su nuevo nombre">
+                        </div> 
+                          <div class="mb-3">
+                            <label for="newapellidos" class="form-label">Apellidos:</label>
+                            <input type="text" class="form-control" id="newapellidos" placeholder="Escriba aquí su nuevo apellido">
+                        </div>
+                        <div class="mb-3">
+                            <label for="newEmail" class="form-label">Nuevo correo electrónico:</label>
+                            <input type="email" class="form-control" id="newEmail" placeholder="Ingrese el nuevo correo electrónico">
+                        </div>
+                        <div class="mb-3">
+                            <label for="modifyUsername" class="form-label">Nombre de usuario:</label>
+                            <input type="text" class="form-control" id="modifyUsername" placeholder="Escriba aquí su nuevo usuario">
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label for="newPassword" class="form-label">Nueva contraseña:</label>
+                            <input type="password" class="form-control" id="newPassword" placeholder="Ingrese la nueva contraseña">
+                        </div>
+                        <div class="mb-3">
+                            <label for="confirmNewPassword" class="form-label">Confirmar nueva contraseña:</label>
+                            <input type="password" class="form-control" id="newconfirmNewPassword" placeholder="Confirme la nueva contraseña">
+                        </div>
+                        <div class="mb-3">
+                            <label for="newfechaNacimiento" class="form-label">Fecha de Nacimiento:</label>
+                            <input type="date" class="form-control" id="newfechaNacimiento" required autocomplete="bday">
+                        </div>
+                        <div class="mb-3">
+                            <label for="newsexo" class="form-label">Género:</label>
+                            <select class="form-control" id="newsexo" name="sexo">
+                                <option value="masculino">Masculino</option>
+                                <option value="femenino">Femenino</option>
+                                <option value="otro">Otro</option>
+                            </select>
+                            <br>
+                            <div class="mb-3">
+                                <div class="opciones">
+                                    <label for="newdispositivos" id="dispositivos">¿Cuál es tu dispositivo?</label>
+                                    <input type="checkbox" id="ordenador" name="opciones">
+                                    <label for="ordenador">Ordenador</label>
+                                    <input type="checkbox" id="movil" name="opciones">
+                                    <label for="movil">Movil</label>
+                                </div>
+                                <br>
+                                <div class="mb-3">
+                                    <div class="opciones">
+                                        <label for="newfrecuencia" id="frecuencia">¿Con qué frecuencia juegas?</label>
+                                        <input type="radio" id="diario" name="opciones">
+                                        <label for="diario">Diario</label>
+                                        <input type="radio" id="semanal" name="opciones">
+                                        <label for="semanal">Semanal</label>
+                                        <input type="radio" id="mensual" name="opciones">
+                                        <label for="mensual">Mensual</label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                
+                        <button type="button" class="btn " data-bs-dismiss="modal">Cancelar</button>
+                        <button type="button" class="btn " onclick="modificarUsuario()">Modificar</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+    <div class="titulo">
+        <img class="logomini" src="IMG/logo1.jpg" alt="" width="100" height="100">
+        <h2>SALA DE MINIJUEGOS</h2>
+    </div>
+    <div id="myTopnav" class="topnav"> 
+        <div class="tab" id="tabPrincipal">
+            <a class="tablinks show-on-login" onclick="openCity(event, 'Inicio')">Inicio</a>
+            <a class="tablinks show-on-login" onclick="openCity(event, 'Registro')">Registro</a>
+            <a class="tablinks hide-on-logout" onclick="openCity(event, 'Aprendizaje')">Aprendizaje</a>
+            <a class="tablinks hide-on-logout" onclick="openCity(event, 'altatension')">Alta Tensión</a>
+            <a class="tablinks hide-on-logout" onclick="openCity(event, 'sopaletras')">Sopa de Letras</a>
+            <a class="tablinks hide-on-logout" onclick="openCity(event, 'gestion')">Gestión</a>
+            <a class="tablinks hide-on-logout" onclick="openCity(event, 'admin')">Administración de Juegos</a>
+        </div>
+        <a href="javascript:void(0);" class="icon" onclick="myFunction()">
+            <i class="fa fa-bars"></i>
+        </a>
+    </div>
+    
+    
+   
+    <div id="Inicio" class="tabcontent">
+        <h3>INICIO</h3>
+        <div class="contenedor">
+            <div class="login-container">
+                <h2>Iniciar sesión</h2>
+                <img src="IMG/icono.png" alt="logo" width="100px" height="100px">
+                <link rel="stylesheet" href="CSS/login.css">
+                <form id="loginForm">
+                    <div class="formulario-group">
+                        <label for="usernameInicio">Nombre de usuario:</label>
+                        <input type="text" id="usernameInicio" name="username" placeholder="Escriba aquí su nombre" required autocomplete="username">
+                    </div>
+                    <div class="formulario-group">
+                        <label for="passwordInicio">Contraseña:</label>
+                        <input type="password" id="passwordInicio" name="password" placeholder="anadir contraseña" required autocomplete="current-password">
+                    </div>
+                    <div class="remember-me">
+                        <input type="checkbox" id="remember" name="remember"> <label for="remember">Recuérdame</label>
+                    </div>
+                    <div class="password">
+                        <a href="olvido_contrasena.html"> ¿Olvidó su contrasña?</a>
+                    </div>
+                    <button class="login-button" type="submit" >Iniciar sesión</button>
+                </form>
+                <button class="close-button">Salir</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="Registro" class="tabcontent">
+        <h3>¡REGÍSTRATE AQUÍ!</h3>
+        <div class="contenedor">
+            <div class="login-container">
+                <h2>Únete </h2>
+                <img src="IMG/icon.png" alt="logo" width="100px" height="100px">
+
+                <form id="registroForm">
+                    <div class="formulario-group">
+                        <label for="nombreRegistro">Nombre y apellidos:</label>
+                        <input type="text" id="nombreRegistro" name="nombre" placeholder="Escribe aquí tu nombre" required autocomplete="given-name">
+
+                        <input type="text" id="apellidosRegistro" name="apellidos" placeholder="Escribe aquí tus apellidos" required autocomplete="family-name">
+
+                        <label for="CorreoE">Dirección de correo:</label>
+                        <input type="text" id="CorreoE" name="CorreoE" placeholder="Dirección de correo electrónico" required autocomplete="email">
+
+                        <label for="usernameId">Nombre de usuario:</label>
+                        <input type="text" id="usernameId" name="username" placeholder="Escribe aquí tu nombre de usuario" required autocomplete="username">
+                    </div>
+
+                    <div class="formulario-group">
+                        <label for="passwordRegistro">Contraseña:</label>
+                        <input type="password" id="passwordRegistro" name="password" placeholder="Añadir una contraseña" required autocomplete="new-password">
+
+                        <label for="passwordRegistro2">Confirmar contraseña:</label>
+                        <input type="password" id="passwordRegistro2" name="password" placeholder="Confirmar contraseña" required autocomplete="new-password">
+                    </div>
+                    <br>
+                    <div class="fechas">
+                        <label for="fechaNacimiento">Fecha de Nacimiento:</label>
+                        <input type="date" id="fechaNacimiento" name="fechaNacimiento" required autocomplete="bday">
+                    </div>
+                    <br>
+                    <div>
+                        <label for="sexo">Género:</label>
+                        <select id="sexo" name="sexo">
+                            <option value="masculino">Masculino</option>
+                            <option value="femenino">Femenino</option>
+                            <option value="otro">Otro</option>
+                        </select>
+                    </div>
+                    <br>
+                 
+                        <div class="dispositivos">
+                            <label for="dispositivo">¿Cuál es tu dispositivo?</label>
+                            <input type="checkbox" id="ordenador" name="dispositivos">
+                            <label for="ordenador">Ordenador</label>
+
+                            <input type="checkbox" id="movil" name="dispositivos">
+                            <label for="movil">Móvil</label>
+                        </div>
+                        <br>
+                        
+                            <div class="frecuencia">
+                                <label for="frecuencia">¿Con qué frecuencia juegas?</label>
+                                <input type="radio" id="diario" name="frecuencia">
+                                <label for="diario">Diario</label>
+
+                                <input type="radio" id="semanal" name="frecuencia
+                                ">
+                                <label for="semanal">Semanal</label>
+
+                                <input type="radio" id="mensual" name="frecuencia">
+                                <label for="mensual">Mensual</label>
+                            </div>
+                      
+
+                        <button class="login-button" type="submit">Registrarse</button>
+                </form>
+
+            </div>
+        </div>
+    </div>
+    <script src="JS/validacion.js"></script>
+
+
+
+
+    <div id="Aprendizaje" class="tabcontent">
+        <h3>MODO APRENDIZAJE</h3>
+            <link rel="stylesheet" href="CSS/style.css">
+         <h2>CONTINENTES</h2>
+    <div id="myBtnContainer">
+        <button class="btn active" onclick="filterSelection('all')"> Show all</button>
+        <button class="btn" onclick="filterSelection('asia')"> ASIA</button>
+        <button class="btn" onclick="filterSelection('america')"> AMERICA</button>
+        <button class="btn" onclick="filterSelection('africa')"> AFRICA</button>
+        <button class="btn" onclick="filterSelection('antartida')"> ANTARTIDA</button>
+        <button class="btn" onclick="filterSelection('europa')"> EUROPA</button>
+        <button class="btn" onclick="filterSelection('oceania')"> OCEANIA</button>
+    </div>
+
+
+    <div class="row">
+        <div class="column asia">
+            <div class="content">
+                <img src="IMG/paises/asiaocidental.avif" alt="asiao" style="width:100%">
+                <h4>Asia Oriental</h4>
+               
+            </div>
+        </div>
+        <div class="column asia">
+            <div class="content">
+                <img src="IMG/paises/asia central.png" alt="asia" style="width:100%">
+                <h4>Asia Central</h4>
+                
+            </div>
+        </div>
+        <div class="column asia">
+            <div class="content">
+                <img src="IMG/paises/sudesteasiatico.jpg" alt="asia" style="width:100%">
+                <h4>Sudeste Asiático</h4>
+               
+            </div>
+        </div>
+
+        <div class="column africa">
+            <div class="content">
+                <img src="IMG/paises/africa norte.jpg" alt="africa" style="width:100%">
+                <h4>África del Norte</h4>
+                
+            </div>
+        </div>
+        <div class="column africa">
+            <div class="content">
+                <img src="IMG/paises/africasub.jpg" alt="africa" style="width:100%">
+                <h4>África Subsahariana Oriental</h4>
+               
+            </div>
+        </div>
+        <div class="column africa">
+            <div class="content">
+                <img src="IMG/paises/afriocci.png" alt="africa" style="width:100%">
+                <h4>África Austral y Occidental</h4>
+                
+            </div>
+        </div>
+
+        <div class="column america">
+            <div class="content">
+                <img src="IMG/paises/amenort.gif" alt="america" style="width:100%">
+                <h4>Norteamérica</h4>
+                
+            </div>
+        </div>
+        <div class="column amercia">
+            <div class="content">
+                <img src="IMG/paises/americacen.webp" alt="america" style="width:100%">
+                <h4>América Central y el Caribe</h4>
+                
+            </div>
+        </div>
+        <div class="column america">
+            <div class="content">
+                <img src="IMG/paises/sudamerica.jpg" alt="america" style="width:100%">
+                <h4>Sudamérica</h4>
+        
+            </div>
+        </div>
+
+
+        <div class="column europa">
+            <div class="content">
+                <img src="IMG/paises/Europa-Occidental.jpg" alt="europa" style="width:100%"  >
+                <h4>Europa Occidental
+                </h4>
+                
+            </div>
+        </div>
+        <div class="column europa">
+            <div class="content">
+                <img src="IMG/paises/eucentro.jpg" alt="europa" style="width:100%">
+                <h4>Europa Central y del Este
+                </h4>
+                
+            </div>
+        </div>
+
+
+        <div class="column oceania">
+            <div class="content">
+                <img src="IMG/paises/oceania occidental.jpg" alt="oceania" style="width:100%">
+                <h4>Oceanía Occidental:</h4>
+               
+            </div>
+        </div>
+        <div class="column oceania">
+            <div class="content">
+                <img src="IMG/paises/melanesia.webp" alt="oceania" style="width:100%">
+                <h4>Melanesia y Micronesia</h4>
+
+            </div>
+        </div>
+        <div class="column oceania">
+            <div class="content">
+                <img src="IMG/paises/pli.jpg" alt="oceania" style="width:100%">
+                <h4>Polinesia</h4>
+                
+            </div>
+        </div>
+
+
+        <div class="column antartida">
+            <div class="content">
+                <img src="IMG/paises/antartida.jpg" alt="antartida" style="width:100%">
+                <h4>Antartida</h4>
+                
+            </div>
+        </div>
+        
+    </div>
+    <script src="JS/efects.js"></script>
+    </div>
+
+
+        <div id="altatension" class="tabcontent">
+        <h3>ALTA TENSIÓN</h3>
+      <div id="contenedor">
+        <img class="logoalta" src="IMG/logo.webp" alt="logo" />
+
+        <div id="contenedortemporizador">
+          <button id="botontemporizador" onclick="iniciarAltatension()">
+            Empezar
+          </button>
+          <div id="temporizador">Tiempo: <span id="contador">10</span></div>
+        </div>
+      </div>
+         <link rel="stylesheet" href="CSS/altatension.css">
+ 
+            <p>Elige las respuestas que consideres correctas, seleccionándolas con un clic de ratón para marcarlas como
+                correctas. Cuando estés seguro de tus elecciones, haz clic en el botón "Comprobar" para ver si has
+                ganado.
+            </p>
+           
+            <table id="tabla" border="4" padding="70%" width="90%" height="80">
+                <tr>
+                    <td id="c1"></td>
+                    <td id="c2"></td>
+                    <td id="c3"></td>
+                </tr>
+                <tr>
+                    <td id="c4"></td>
+                    <td id="c5"></td>
+                    <td id="c6"></td>
+                </tr>
+            </table>
+            <br>
+            <div class="botones">
+                <button id="Comprobar">Comprobar</button>
+                <br>
+                <button id="reset">Reiniciar</button>
+                <button id="btnConsultarPuntosAT">Consultar Puntos AT</button>
+                <table id="tablaPuntosAT">
+                    <thead>
+                      <tr>
+                        <th>Usuario</th>
+                        <th>Puntos AT</th>
+                      </tr>
+                    </thead>
+                    <tbody></tbody>
+                  </table>
+            </div>  
+             <script type="text/javascript" src="JS/altatension.js"></script>
+             <style>   
+
+              .logoalta{
+         width: 10%;
+         height: 5%;
+        text-align: center;
+        }
+           #temporizador{
+     
+    font-size: 44px;
+
+    }
+      
+       #altatension  button{
+            background-color: #74bfd3;
+            color: white;
+            font-size: 1em;
+            padding: .5em 1em;
+            text-decoration: none;
+            display: inline;
+            cursor: pointer;
+        }
+        
+        /* Estilo para la tabla */
+#altatension  #tabla {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+#altatension #tabla td {
+    height: 60px;
+    text-align: center;
+    font-size: 1.2em;
+    font-weight: bold;
+}
+
+/* Colores alternativos para filas */
+#altatension #tabla tr:nth-child(even) {
+    background-color: #f2f2f2;
+}
+
+#altatension #tabla tr:nth-child(odd) {
+    background-color: #e6e6e6;
+}
+
+/* Estilo para los botones */
+#altatension .botones {
+    text-align: center;
+    margin-top: 20px;
+}
+
+ #altatension  button {
+    background-color: #74bfd3;
+    font-size: 1.2em;
+    padding: 10px 20px;
+    margin: 5px;
+    border: none;
+    cursor: pointer;
+}
+
+ #altatension  button:hover {
+    background-color: #5a9db6;
+}
+    #altatension #contenedor {
+          display: grid;
+          grid-template-columns: 0.5fr 0.5fr;
+        }
+ #altatension #contenedortemporizador {
+          display: flex;
+          justify-content: center;
+          flex-direction: column;
+          text-align: center;
+          gap: 46px;
+        }
+/* Estilo para el contenedor del juego */
+#altatension {
+
+    margin: 20px;
+}
+  td.selected {
+      background-color: cyan;
+  }
+/* Estilo para el título */
+#altatension h3 {
+    color: black;
+    font-size: 2em;
+}
+
+/* Estilo para el párrafo de instrucciones */
+#altatension p {
+    font-size: 1.1em;
+    margin-top: 10px;
+}
+
+/* Estilo para la imagen del logo */
+#altatension .logoalta {
+    width: 100%;
+    height: auto;
+    margin-top: 10px;
+}
+
+/* Ajustes responsivos */
+@media (max-width: 768px) {
+    .logoalta {
+        width: 80%;
+    }
+}
+        </style>
+        </div>
+      
+
+
+
+<body>
+
+    <title>Sopa de Letras</title>
+    <style>
+        .sopa {
+           grid-column: 2;
+    background-color: #74bfd3;
+    color: white;
+    font-size: 2em;
+   
+    text-decoration: none;
+    display: grid;
+    cursor: pointer;
+    margin-top: 10px;
+        }
+
+        .logosopa {
+            margin-top: 10px;
+            margin-bottom: 20px;
+              width: 100%;
+             height: 90%;
+             display: grid;
+             grid-column: 2;
+    
+        }
+
+        table {
+            border-collapse: collapse;
+            margin: 20px;
+        }
+
+        td {
+            border: 1px solid black;
+            width: 30px;
+            height: 30px;
+            text-align: center;
+        }
+        .contenedors{
+        display: grid;
+        grid-template-columns: 2fr ;
+
+        }
+    </style>
+</body>
+
+<body>
+
+    <div id="sopaletras" class="tabcontent">
+      <div class="contenedors" > <h3>SOPA DE LETRAS</h3>
+        <img class="logosopa" src="IMG/sopalogo.jpg" alt="" width="100px" height="20px">
+        <button class="sopa" id="sopaButton">COMENZAR</button>
+        <button class="sopa" id="finalizarButton">FINALIZAR</button>
+        <div id="sopaContainer" >
+       </div> </div> </div>
+        
+<table id="tablasopa"></table>
+    <script>
+      function crearSopaDeLetras() {
+    // Preguntar al usuario por el número de filas y columnas
+    var filas = prompt("Ingrese el número de filas:");
+    var columnas = prompt("Ingrese el número de columnas:");
+
+    // Validar la entrada del usuario
+    if (!filas || isNaN(filas) || filas <= 0 || !columnas || isNaN(columnas) || columnas <= 0) {
+        alert("Por favor, ingrese números válidos para filas y columnas.");
+        return;
+    }
+
+    // Crear la tabla
+    var tabla = document.getElementById("tablasopa");
+
+    // Crear las filas y columnas
+    for (var i = 0; i < filas; i++) {
+        var fila = document.createElement("tr");
+
+        for (var j = 0; j < columnas; j++) {
+            var celda = document.createElement("td");
+            celda.textContent = obtenerLetraAleatoria();
+            fila.appendChild(celda);
+        }
+
+        tabla.appendChild(fila);
+    }
+
+    // Añadir la tabla al cuerpo del documento
+    // document.body.appendChild(tabla);
+
+    // Preguntar al usuario por el número de palabras a añadir
+    var numeroPalabras = prompt("Ingrese el número de palabras que desea añadir:");
+
+    // Validar la entrada del número de palabras
+    if (!numeroPalabras || isNaN(numeroPalabras) || numeroPalabras <= 0) {
+        alert("Por favor, ingrese un número válido para el número de palabras.");
+        return;
+    }
+
+    // Añadir cada palabra según la dirección especificada
+    for (var i = 0; i < numeroPalabras; i++) {
+        var palabra;
+        var direccion;
+        var filaInicio;
+        var columnaInicio;
+
+        // Bucle hasta que se proporcionen valores válidos para la palabra
+        do {
+            palabra = prompt("Ingrese la palabra #" + (i + 1) + ":");
+            direccion = prompt("Ingrese la dirección de la palabra (arriba, abajo, izquierda, derecha):");
+            filaInicio = prompt("Ingrese la fila de inicio:");
+            columnaInicio = prompt("Ingrese la columna de inicio");
+        } while (!palabra || palabra.trim() === "" || !direccion || !["arriba", "abajo", "izquierda", "derecha"].includes(direccion.toLowerCase()) ||
+        !filaInicio || isNaN(filaInicio) || filaInicio < 0 || filaInicio >= filas ||
+        !columnaInicio || isNaN(columnaInicio) || columnaInicio < 0 || columnaInicio >= columnas);
+
+        // Añadir la palabra a la sopa de letras
+        agregarPalabra(tabla, palabra, direccion, parseInt(filaInicio), parseInt(columnaInicio), filas, columnas);
+    }
+}
+
+function obtenerLetraAleatoria() {
+    var letras = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+    var indiceAleatorio = Math.floor(Math.random() * letras.length);
+    return letras.charAt(indiceAleatorio);
+}
+
+function agregarPalabra(tabla, palabra, direccion, filaInicio, columnaInicio, filas, columnas) {
+    var longitud = palabra.length;
+
+    switch (direccion.toLowerCase()) {
+        case "arriba":
+            for (var i = 0; i < longitud; i++) {
+                if (filaInicio - i >= 0) {
+                    tabla.rows[filaInicio - i].cells[columnaInicio].textContent = palabra.charAt(i).toUpperCase();
+                } else {
+                    alert(" La palabra se sale de los límites derechos de la tabla");
+                    break;
+                }
+            }
+            break;
+
+        case "abajo":
+            for (var i = 0; i < longitud; i++) {
+                if (filaInicio + i < filas) {
+                    tabla.rows[filaInicio + i].cells[columnaInicio].textContent = palabra.charAt(i).toUpperCase();
+                } else {
+                    alert(" La palabra se sale de los límites derechos de la tabla");
+                    break;
+                }
+            }
+            break;
+
+        case "izquierda":
+            for (var i = 0; i < longitud; i++) {
+                if (columnaInicio - i >= 0) {
+                    tabla.rows[filaInicio].cells[columnaInicio - i].textContent = palabra.charAt(i).toUpperCase();
+                } else {
+                    alert(" La palabra se sale de los límites derechos de la tabla");
+                    break;
+                }
+            }
+            break;
+
+        case "derecha":
+            for (var i = 0; i < longitud; i++) {
+                if (columnaInicio + i < columnas) {
+                    tabla.rows[filaInicio].cells[columnaInicio + i].textContent = palabra.charAt(i).toUpperCase();
+                } else {
+                    alert(" La palabra se sale de los límites derechos de la tabla");
+                    break;
+                }
+            }
+            break;
+
+        default:
+            alert("Dirección no válida.");
+            break;
+    }
+}
+    // Agregar evento click al botón para abrir la sopa de letras
+    document.getElementById("sopaButton").addEventListener("click", crearSopaDeLetras);
+</script>
+
+
+<script>
+    // Agregar evento click al botón para finalizar la sopa de letras
+    document.getElementById("finalizarButton").addEventListener("click", finalizarSopaDeLetras);
+
+    function finalizarSopaDeLetras() {
+        // Ocultar la sopa de letras
+        document.getElementById("tablasopa").style.display = "none";
+    }
+</script>
+
+</body>
+
+
+
+
+<div id="gestion" class="tabcontent">
+    <h3>GESTIÓN USUARIOS</h3>
+    <table id="tablaUsuarios" class="display">
+        <thead>
+            <tr>
+                <th>Nombre de Usuario</th>
+                <th>Correo Electrónico</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>admin</td>
+                <td>admin@example.com</td>
+                <td>
+                    <button onclick="modificarUsuario()">Modificar</button>
+                    <button onclick="confirmarDarseDeBaja()">Eliminar</button>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+<div id="admin" class="tabcontent">
+    <h3>Administración de Juegos</h3>
+   <!-- Nueva tabla para mostrar los datos del JSON -->
+   <div class="container my-5">
+    <h2 class="mb-4">Seleccionar tipo de juego:</h2>
+    <select id="tipoJuego" class="form-select mb-3">
+        <option value="juegos_mesas">Juegos de mesa</option>
+        <option value="juegos_online">Juegos online</option>
+    </select>
+
+    <!-- Tabla para mostrar los datos del juego seleccionado -->
+    <h2 class="mb-4">Datos de juego seleccionado:</h2>
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>Nombre</th>
+                <th>Categoría</th>
+                <th>Edad Recomendada</th>
+                <th>Jugadores</th>
+            </tr>
+        </thead>
+        <tbody id="tbodyDatos"></tbody>
+    </table>
+</div>
+</div>
+
+<script src="JS/hamburguesa.js"></script>
+</body>
+<footer>
+    <div class="footer-content">
+        <p>&copy; 2023 Sala de Minijuegos. Todos los derechos reservados.</p>
+    </div>
+</footer>
+
+</html>

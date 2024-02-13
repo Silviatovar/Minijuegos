@@ -1,0 +1,48 @@
+ <div id="altatension" class="tabcontent">
+        <h3>ALTA TENSIÓN</h3>
+         <img src="logo.webp" alt="logo" width="300px" height="100px">
+         <link rel="stylesheet" href="CSS/altatension.css">
+
+            <p>Elige las respuestas que consideres correctas, seleccionándolas con un clic de ratón para marcarlas como
+                correctas. Cuando estés seguro de tus elecciones, haz clic en el botón "Comprobar" para ver si has
+                ganado.
+            </p>
+
+            <table id="tabla" border="1" padding="60px" width="90%" height="80">
+                <tr>
+                    <td id="c1"></td>
+                    <td id="c2"></td>
+                    <td id="c3"></td>
+                </tr>
+                <tr>
+                    <td id="c4"></td>
+                    <td id="c5"></td>
+                    <td id="c6"></td>
+                </tr>
+            </table>
+            <br>
+            <div class="botones">
+                <button id="Comprobar">Comprobar</button>
+                <br>
+                <button id="reset">Reiniciar</button>
+                
+            </div>  
+             <script type="text/javascript" src="JS/altatension.js"></script>
+        </div> */
+
+
+        /* img{
+         width: 60%;
+         height: 5%;
+         margin-left: 33%;
+        }
+      
+        button{
+            background-color: #74bfd3;
+            color: white;
+            font-size: 1em;
+            padding: .5em 1em;
+            text-decoration: none;
+            display: inline;
+            cursor: pointer;
+        }

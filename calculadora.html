@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Calculadora funcional</title>
+    <link rel="stylesheet" type="text/css" href="CSS/calculadora.css">
+</head>
+
+<body>
+    <div class="contenedor">
+        <h1 class="titulo">
+            Calculadora funcional
+        </h1>
+
+        <div class="espacio">
+
+
+
+            <div class="calculadora">
+                <div id="vacio"></div>
+                <div class="botones">
+                    <div class="cuentas">
+                        <div onclick="agregarOperador('/')">&divide;</div>
+                        <div onclick="agregarOperador('*')">&times;</div>
+                        <div onclick="agregarOperador('-')">-</div>
+                        <div onclick="agregarOperador('+')">+</div>
+                    </div>
+                    <div class="panel-numeros">
+                        <div class="numeros">
+                            <div onclick="agregarNumero(7)">7</div>
+                            <div onclick="agregarNumero(4)">4</div>
+                            <div onclick="agregarNumero(1)">1</div>
+                            <div class="extendido" id="avButton" onclick="toggleAvButtons()">Av</div>
+
+                        </div>
+                        <div class="numeros">
+                            <div onclick="agregarNumero(8)">8</div>
+                            <div onclick="agregarNumero(5)">5</div>
+                            <div onclick="agregarNumero(2)">2</div>
+                            <div class="av" onclick="agregarOperador('sen')">sen</div>
+                        </div>
+                        <div class="numeros">
+                            <div onclick="agregarNumero(9)">9</div>
+                            <div onclick="agregarNumero(6)">6</div>
+                            <div onclick="agregarNumero(3)">3</div>
+                            <div class="av" onclick="agregarOperador('cos')">cos</div>
+                        </div>
+                        <div class="numeros">
+                            <div onclick="limpiar()" id="limpiar">C</div>
+                            <div onclick="agregarNumero('.')">.</div>
+                            <div onclick="agregarNumero(0)">0</div>
+                            <div class="av" onclick="agregarOperador('tan')">tan</div>
+                        </div>
+                        <div class="igual" id="resultado" onclick="calcular()">=</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="JS/calculadora.js"></script>
+</body>
+</body>
+
+</html>
